@@ -10,6 +10,8 @@ import {
 
 import styles from "./tailwind.css";
 
+import { Navbar } from "./components/Navbar";
+
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
 export const meta: MetaFunction = () => ({
@@ -25,7 +27,8 @@ export default function App() {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="dark:bg-zinc-900">
+        <Navbar />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
