@@ -12,7 +12,6 @@ import {
 import styles from "./tailwind.css";
 
 import { Navbar } from "./components/Navbar";
-import { ThemeContext } from "~/contexts/ThemeContext";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
@@ -23,10 +22,8 @@ export const meta: MetaFunction = () => ({
 });
 
 export default function App() {
-  const { darkMode } = React.useContext(ThemeContext) || {};
-  console.log("darkMode: ", darkMode);
   return (
-    <html className={`${darkMode ? "dark" : ""}`} lang="en">
+    <html lang="en">
       <head>
         <Meta />
         <Links />
