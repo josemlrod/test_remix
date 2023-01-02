@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import React from "react";
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import {
@@ -9,7 +10,8 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-import styles from "./tailwind.css";
+import styles from "~/tailwind.css";
+import { ThemeProvider, useTheme } from "~/utils/themeProvider";
 
 import { Navbar } from "./components/Navbar";
 
@@ -21,9 +23,19 @@ export const meta: MetaFunction = () => ({
   viewport: "width=device-width,initial-scale=1",
 });
 
-export default function App() {
+export default function AppWithProviders() {
   return (
-    <html lang="en">
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
+  );
+}
+
+function App() {
+  const [theme] = useTheme();
+
+  return (
+    <html className={clsx(theme)} lang="en">
       <head>
         <Meta />
         <Links />
