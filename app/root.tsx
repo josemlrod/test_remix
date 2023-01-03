@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import React from "react";
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import {
   Links,
@@ -11,7 +10,11 @@ import {
 } from "@remix-run/react";
 
 import styles from "~/tailwind.css";
-import { ThemeProvider, useTheme } from "~/utils/themeProvider";
+import {
+  NonFlashOfWrongThemeEls,
+  ThemeProvider,
+  useTheme,
+} from "~/utils/themeProvider";
 
 import { Navbar } from "./components/Navbar";
 
@@ -39,6 +42,7 @@ function App() {
       <head>
         <Meta />
         <Links />
+        <NonFlashOfWrongThemeEls />
       </head>
       <body className="dark:bg-zinc-900">
         <Navbar />

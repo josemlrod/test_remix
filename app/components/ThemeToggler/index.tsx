@@ -2,9 +2,9 @@ import { Theme, useTheme } from "~/utils/themeProvider";
 
 export default function ThemeToggler() {
   const [theme, setTheme] = useTheme();
-  const icon = theme === Theme.LIGHT ? "🌞" : "🌝";
+  const icon: string = theme === Theme.LIGHT ? "🌞" : "🌝";
 
-  const handleOnClick = () => {
+  const handleOnClick = (): void => {
     setTheme((prevTheme) =>
       prevTheme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT
     );
