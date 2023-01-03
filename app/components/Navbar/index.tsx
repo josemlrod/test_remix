@@ -1,3 +1,5 @@
+import ThemeToggler from "../ThemeToggler";
+
 export function Navbar() {
   return (
     <nav
@@ -51,6 +53,8 @@ export function Navbar() {
           </a>
         </li>
       </ul>
+
+      <ThemeToggler />
     </nav>
   );
 }
