@@ -1,5 +1,4 @@
-import clsx from "clsx";
-import type { LinksFunction, MetaFunction } from "@remix-run/node";
+import type { LinksFunction, LoaderArgs, MetaFunction } from "@remix-run/node";
 import {
   Links,
   LiveReload,
@@ -7,18 +6,34 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
+import { json } from "@remix-run/node";
 
 import styles from "~/tailwind.css";
 import {
-  NonFlashOfWrongThemeEls,
+  ThemeBody,
+  ThemeHead,
   ThemeProvider,
   useTheme,
+  type Theme,
 } from "~/utils/themeProvider";
+import { getThemeSession } from "~/utils/theme.server";
+import { Navbar } from "~/components/Navbar";
 
-import { Navbar } from "./components/Navbar";
+export type LoaderData = {
+  theme: Theme | null;
+};
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
+
+export const loader = async ({ request }: LoaderArgs) => {
+  const themeSession = await getThemeSession(request);
+
+  return json({
+    theme: themeSession.getTheme(),
+  });
+};
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
@@ -27,8 +42,10 @@ export const meta: MetaFunction = () => ({
 });
 
 export default function AppWithProviders() {
+  const data = useLoaderData<typeof loader>();
+
   return (
-    <ThemeProvider>
+    <ThemeProvider specifiedTheme={data.theme}>
       <App />
     </ThemeProvider>
   );
@@ -36,19 +53,21 @@ export default function AppWithProviders() {
 
 function App() {
   const [theme] = useTheme();
+  const data = useLoaderData<LoaderData>();
 
   return (
-    <html className={clsx(theme)} lang="en">
+    <html lang="en" className={theme ?? ""}>
       <head>
         <Meta />
         <Links />
-        <NonFlashOfWrongThemeEls />
+        <ThemeHead ssrTheme={Boolean(data.theme)} />
       </head>
       <body className="dark:bg-zinc-900">
         <Navbar />
         <Outlet />
         <ScrollRestoration />
         <Scripts />
+        <ThemeBody ssrTheme={Boolean(data.theme)} />
         <LiveReload />
       </body>
     </html>

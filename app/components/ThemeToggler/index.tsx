@@ -5,6 +5,7 @@ export default function ThemeToggler() {
   const icon: string = theme === Theme.LIGHT ? "🌞" : "🌝";
 
   const handleOnClick = (): void => {
+    debugger;
     setTheme((prevTheme) =>
       prevTheme === Theme.LIGHT ? Theme.DARK : Theme.LIGHT
     );
