@@ -6,6 +6,8 @@ enum Theme {
   LIGHT = "light",
 }
 
+const themes: Array<Theme> = Object.values(Theme);
+
 const prefersDarkMQ: string = "(prefers-color-scheme: dark)";
 const getPreferredTheme = () =>
   window.matchMedia(prefersDarkMQ).matches ? Theme.DARK : Theme.LIGHT;
@@ -30,6 +32,10 @@ function ThemeProvider({ children }: { children: ReactNode }) {
       {children}
     </ThemeContext.Provider>
   );
+}
+
+function isTheme(value: unknown): value is Theme {
+  return typeof value === "string" && themes.includes(value as Theme);
 }
 
 function useTheme() {
@@ -62,4 +68,4 @@ function NonFlashOfWrongThemeEls() {
   return <script dangerouslySetInnerHTML={{ __html: clientThemeCode }} />;
 }
 
-export { NonFlashOfWrongThemeEls, Theme, ThemeProvider, useTheme };
+export { isTheme, NonFlashOfWrongThemeEls, Theme, ThemeProvider, useTheme };
